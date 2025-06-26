@@ -1,20 +1,22 @@
 const http = require('http');
 
+const nRouter = require('./router');
+
 const PORT = 3000;
+const router = new nRouter;
+
+router.get('/', (req: any, res: any) => {
+    res.end("YOO");
+})
+
+router.get('/users', (req: any, res: any) => {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({message: "GOONIERE!"}));
+})
 
 const server = http.createServer((req: any, res: any) => {
-    const {method, url} = req;
-    
-    res.setHeader('Content-Type', 'application/json');
-
-    if(method === 'GET' && url === "/") {
-        res.writeHead(200);
-        res.end("E - OO - E - A - E - OO - O - A - E - E - OO - E - A - E");
-    }
-    else{
-        res.writeHead(404);
-        res.end("COULD NOT FIND RESOURCE");
-    }
+    router.handle(req, res);
+    router.output();
 });
 
 server.listen(PORT, () => {

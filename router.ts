@@ -13,7 +13,6 @@ interface Routes{
 class Router{
     private routes: Routes;
     constructor(){
-
         this.routes = {};
     }
 
@@ -32,6 +31,10 @@ class Router{
         this.addRoute('POST', path, handler);
     }
 
+    output(){
+        console.log(this.routes);
+    }
+
     handle(req: any, res: any){
         const {method, url} = req;
         const path = url.split('?')[0];
@@ -43,12 +46,9 @@ class Router{
                 return handler(req, res);
             }
         }
-
         res.writeHead(404, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({error: "NOT FOUND"}));
     }
 }
 
-module.exports = {
-    Router: Router
-}
+module.exports = Router;
